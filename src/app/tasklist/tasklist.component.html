@@ -1,0 +1,52 @@
+
+<div class="border border-white px-2 mt-1 bg-light rounded" [hidden]="show" >
+    <div class="row " >
+      <div class="col-md-2">
+          <label for="inputEmail4" class="font-weight-bolder">Task</label>
+      </div>
+      <div class="col-md-2">
+          <label for="inputEmail4" class="font-weight-bolder">Parent</label>
+      </div>
+      <div class="col-md-1">
+          <label for="inputEmail4" class="font-weight-bolder">Priority</label>
+      </div>
+      <div class="col-md-2">
+          <label for="inputEmail4" class="font-weight-bolder">Start</label>
+      </div>
+      <div class="col-md-2">
+          <label for="inputEmail4" class="font-weight-bolder">End</label>
+      </div>
+      <div class="col-md-1">
+        
+      </div>
+      <div class="col-md-2">
+         
+      </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-md-2">
+            <label for="inputEmail4">{{task.taskName}}</label>
+        </div>
+        <div class="col-md-2">
+            <label for="inputEmail4">{{task.parentTask}}</label>
+        </div>
+        <div class="col-md-1">
+            <label for="inputEmail4">{{task.priority}}</label>
+        </div>
+        <div class="col-md-2">
+            <label for="inputEmail4">{{task.startDate}}</label>
+        </div>
+        <div class="col-md-2">
+            <label for="inputEmail4">{{task.endDate}}</label>
+        </div>
+        <div class="col-md-1">
+          <button type="submit" (click)="onEditTask(task)" class="btn btn-info" >Edit</button>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-danger" >End Task</button>
+        </div>
+      </div>
+    </div>
+  <template #alertContainer (cancel)="onCanceled($event)"  (updatedTask)="onTaskUpdate($event)"></template>
+  <div class="p-1 mb-2 bg-secondary
+  text-white"></div>

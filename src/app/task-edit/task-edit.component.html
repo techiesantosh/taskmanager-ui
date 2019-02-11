@@ -1,0 +1,102 @@
+<h4>Update Task</h4>
+<div class="card my-3">
+  <form #f="ngForm" [formGroup]="taskForm"  >
+      <div class="form-group row">
+        <label for="first_name"  class="col-sm-2 col-form-label">Task</label>
+      
+  
+        <div class="col-auto">
+          <input   formControlName="taskName" placeholder="Task" id="task" type="text" class="form-control">
+        </div>
+      </div>
+  
+      <div class="form-group row">
+        <label for="priority" class="col-sm-2 col-form-label">Priority</label>
+        
+  
+        <div class="col-sm-3">
+        
+           <input formControlName="priority" class="custom-range" type="range" value="0" id="priority" min="0" max="30" (input)="onRangeChange($event.target.value)" />
+  
+        </div>
+        <div  class="col-sm-4">
+          <span class="rangevalue">{{rangeValue}}</span>
+        </div>
+      </div>
+      <div class="form-group row">
+      <label for="first_name" class="col-sm-2 col-form-label">Parent Task</label>
+        
+  
+      <div class="col-auto  pb-2">
+        <input  formControlName="parentTask"  
+        [typeahead]="taskList"
+        (typeaheadOnSelect)="onParentTaskSelect($event)"
+        typeaheadOptionField="taskName"
+        class="form-control">
+        </div>
+      </div>
+  
+      <div class="form-group row">
+       <label for="first_name" class="col-sm-2 col-form-label">Start Date</label>
+       
+  
+       <div class="col-auto form-group">
+        <input type="text" readonly=true
+        formControlName="startDate"
+        placeholder="Datepicker"
+        class="form-control"
+        [minDate]="minDate"
+        bsDatepicker>
+          
+        </div>
+      </div>
+  
+      <div class="form-group row">
+        <label for="first_name" class="col-sm-2 col-form-label">End Date</label>
+       
+  
+        <div class="col-auto form-group">
+          <!-- <input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31"> -->
+          <input type="text" readonly=true
+          placeholder="Datepicker"
+          formControlName="endDate"
+          class="form-control"  [minDate]="minDate"
+          bsDatepicker>
+        </div>
+      </div>
+  
+      <div class="form-group row">
+        <label for="first_name" class="col-sm-2 col-form-label"></label>
+       
+  
+        <div class="col-sm-1">
+          <!-- <input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31"> -->
+          <button type="button"  class="btn btn-primary" (click)= "onSubmit(f,template)">Update</button>
+        </div>
+        <div class="col-sm-9">
+          <!-- <input type="da te" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31"> -->
+          <button type="button" (click)="removeObject(false)"  class="btn btn-primary">Cancel</button>
+        </div>
+      </div>
+  </form>
+    </div> 
+    
+    <ng-template #template>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Message</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <alert type="success">
+          <strong>Task Updated !!</strong> 
+        </alert>
+      </div>
+    </ng-template>
+
+   
+
+ 
+
+  

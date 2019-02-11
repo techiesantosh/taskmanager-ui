@@ -1,0 +1,109 @@
+<div class="shadow p-3 mb-5 bg-white rounded">
+  <form [formGroup]="taskForm"  (ngSubmit)="onSubmit()" >
+    <div class="form-group row">
+      <label for="first_name"  class="col-sm-2 col-form-label">Task</label>
+    
+
+      <div class="col-auto">
+        <input maxlength="20"   formControlName="taskName" placeholder="Task Name" id="task" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.taskName.errors }">
+        <div *ngIf="submitted && f.taskName.errors" class="invalid-feedback">
+          <div *ngIf="f.taskName.errors.required">Task Name is required</div>
+          <div *ngIf="f.taskName.errors.minlength">Minimum 4 characters required</div>
+          <div *ngIf="f.taskName.errors.maxlength">Maximum 20 characters are allowed</div>
+      </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="priority" class="col-sm-2 col-form-label">Priority</label>
+      
+
+      <div class="col-sm-3">
+      
+         <input formControlName="priority" class="custom-range" type="range" value="0" id="priority" min="0" max="30" (input)="onRangeChange($event.target.value)" />
+
+      </div>
+      <div  class="col-sm-4">
+        <span class="rangevalue">{{rangeValue}}</span>
+      </div>
+    </div>
+    <div class="form-group row">
+    <label for="first_name" class="col-sm-2 col-form-label">Parent Task</label>
+      
+
+    <div class="col-auto  pb-2">
+      <input  formControlName="parentTask"  
+      [typeahead]="taskList"
+      (typeaheadOnSelect)="onParentTaskSelect($event)"
+      typeaheadOptionField="taskName"
+      class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group row">
+     <label for="first_name" class="col-sm-2 col-form-label">Start Date</label>
+     
+
+     <div class="col-auto form-group">
+      <input  readonly=true
+      formControlName="startDate"
+      placeholder="Start Date"
+      class="form-control"
+      [minDate]="minStartDate"
+      [maxDate]="maxStartDate"  
+      bsDatepicker [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }">
+
+      <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
+        <div *ngIf="f.startDate.errors.required">Start date is required</div>
+        <div *ngIf="f.startDate.errors.mustMatch">Start date cannot be greater</div>
+        </div>
+    </div>
+        
+      </div>
+   
+
+    <div class="form-group row">
+      <label for="first_name" class="col-sm-2 col-form-label">End Date</label>
+     
+
+      <div class="col-auto form-group">
+        <!-- <input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31"> -->
+        <input  readonly=true
+        placeholder="End Date"
+        formControlName="endDate"
+        class="form-control"      [minDate]="minEndDate"
+        [maxDate]="maxEndDate" 
+        bsDatepicker [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }">
+        <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
+          <div *ngIf="f.endDate.errors.required">End date is required</div>
+          <div *ngIf="f.endDate.errors.mustMatch">End date cannot be less than startDate</div>
+          </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label  class="col-2 col-sm-2 "></label>
+     
+
+      <div class="col-auto">
+        <!-- <input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31"> -->
+        <button type="submit"  class="btn btn-primary">Add Task</button>
+      </div>
+      <div class="col-auto">
+        <!-- <input type="da te" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31"> -->
+        <button type="button" (click)="reset()"  class="btn btn-primary">Reset</button>
+      </div>
+    </div>
+
+
+  </form>
+ 
+  
+
+</div>
+
+<div *ngFor="let alert of alerts">
+  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" >{{ alert.msg }}</alert>
+</div>
+
+
