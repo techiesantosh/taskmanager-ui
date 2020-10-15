@@ -1,0 +1,29 @@
+<app-header></app-header>
+
+<div class="container">
+
+    <div class="card">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a  routerLink="./addtask" class="nav-link"   routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Add Task</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active"  routerLink="./managetask">View Task</a>
+          </li>
+         
+        </ul>
+      </div>
+      <div class="card-body">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a href="#test1" routerLink="/addtask">Add Task </a>
+      <a class="active" href="#test2" routerLink="/managetask">View Task</a>
+    </nav> -->
+  
+    
+  </div>
+  
+

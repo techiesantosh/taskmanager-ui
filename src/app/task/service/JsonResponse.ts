@@ -1,4 +1,3 @@
-import { JsonResponse } from './JsonResponse';
 export interface JsonResponse {
 
     code?: string;

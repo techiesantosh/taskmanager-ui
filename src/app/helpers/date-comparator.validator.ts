@@ -6,9 +6,10 @@ export function DateComparator(startDate: string, endDate: string) {
         const startDate1 = formGroup.controls[startDate];
         const endDate1 = formGroup.controls[endDate];
 
-        if (endDate1.errors && startDate1.errors ) {
- return;
+        if (endDate1.errors && !endDate1.errors.mustMatch) {
+            return;
         }
+
         //     // return if another validator has already found an error on the matchingControl
         //     return;
         // }
@@ -21,5 +22,5 @@ export function DateComparator(startDate: string, endDate: string) {
 
         // set error on matchingControl if validation fails
 
-    }
+    };
 }

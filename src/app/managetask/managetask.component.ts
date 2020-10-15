@@ -20,26 +20,27 @@ export class ManagetaskComponent implements OnInit {
   jsonResponse: JsonResponse;
   selectedTaskOption: any;
   selectedParentOption: any;
-  constructor(private taskService: ManagetaskService) { }
+  constructor(private taskService: TaskService) { }
 
   ngOnInit() {
 
 
-    this.taskForm = new FormGroup(
-      {
-        task: new FormControl('', [Validators.minLength(6)]),
-        priorityFrom: new FormControl('', [Validators.minLength(6)]),
-        priorityTo: new FormControl('', [Validators.minLength(6)]),
-        parentTask: new FormControl('', [Validators.minLength(6)]),
-        startDate: new FormControl('', [Validators.minLength(6)]),
-        endDate: new FormControl('', [Validators.minLength(6)])
-      });
+    // this.taskForm = new FormGroup(
+    //   {
+    //     taskName: new FormControl('', [Validators.minLength(6)]),
+    //     priorityFrom: new FormControl('', [Validators.minLength(6)]),
+    //     priorityTo: new FormControl('', [Validators.minLength(6)]),
+    //     parentTask: new FormControl('', [Validators.minLength(6)]),
+    //     startDate: new FormControl('', [Validators.minLength(6)]),
+    //     endDate: new FormControl('', [Validators.minLength(6)])
+    //   });
 
 
     this.taskService.getTasks().subscribe(resp => {
 
       this.jsonResponse = resp.body;
       this.taskList = this.taskList.concat(<string[]>this.jsonResponse.result);
+      this.filteredTaskList = this.filteredTaskList.concat(<string[]>this.jsonResponse.result);
 
 
     }, err => {

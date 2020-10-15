@@ -41,9 +41,11 @@ export class TasklistComponent implements OnInit {
     this.componentRef.instance.taskForm.controls['parentTask'].setValue(task.parentTask);
     this.componentRef.instance.taskForm.controls['startDate'].setValue(task.startDate);
     this.componentRef.instance.taskForm.controls['endDate'].setValue(task.endDate);
-    this.componentRef.instance.rangeValue = task.priority;
+    this.componentRef.instance.rangeValue = task.priority+'';
+    this.componentRef.instance.taskId =task.taskId;
     this.componentRef.instance.updatedTask.subscribe(data => {
       this.task = data;
+      this.task.taskId = task.taskId;
       this.show =false;
     });
   }

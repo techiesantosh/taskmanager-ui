@@ -7,3 +7,31 @@
     text-align: center;
     color: #fff;
   }
+  .input-wrapper {
+    display:inline-block;
+    position: relative
+}
+.input-wrapper:after {
+    font-family: 'FontAwesome';
+    content: '\f274';
+    position: absolute;
+    right: 6px;
+}
+
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  >  .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 5px;
+  }
+}
+
+
+.alert {
+  background-color: #7B1FA2;
+  border-color: #4A148C;
+  color: #fff;
+}

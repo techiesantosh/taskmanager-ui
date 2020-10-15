@@ -1,50 +1,45 @@
 
 <div class="shadow p-3 mb-5 bg-white rounded">
-<form [formGroup]="taskForm"  (ngSubmit)="onSubmit()">
+  <form>
   <div class="form-group row">
-    <label for="Task" class="col-sm-1 col-form-label">Task</label>
-    <div class="col-sm-5">
-      <input  formControlName="task"
-      [typeahead]="taskList"   
-      (typeaheadOnSelect)="onTaskSelect($event)"
-      typeaheadOptionField="taskName"
-      class="form-control">
+    <label for="Task" class="col-sm-2 col-form-label">Task</label>
+    <div class="col-sm-3">
+      <input  [(ngModel)]="taskName" placeholder="Task Name" class="form-control"  [ngModelOptions]="{standalone: true}" >
     </div>
-     <label for="parentTask" class="col-sm-1 col-form-label">Parent Task:</label>
-    <div class="col-sm-5">
-      <input  formControlName="parentTask"  
-      [typeahead]="taskList"
-      (typeaheadOnSelect)="onParentTaskSelect($event)"
-      typeaheadOptionField="taskName"
-      class="form-control">
+     <label for="parentTask" class="col-sm-2 col-form-label">Parent Task:</label>
+    <div class="col-sm-4">
+      <input  [(ngModel)]="parentTask" placeholder="Parent Task" class="form-control"  [ngModelOptions]="{standalone: true}">
     </div>
   </div>
    <div class="form-group row">
-    <label for="Task" class="col-sm-1 col-form-label">Priority From</label>
-    <div class="col-sm-2">
-      <input type="text"  formControlName="priorityFrom" class="form-control" id="priorityFrom" placeholder="Priority From">
+    <label for="Task" class="col-sm-2 col-form-label">Priority From</label>
+    <div class="col-sm-3">
+      <input  [(ngModel)]="priorityFrom"  class="form-control" id="priorityFrom" placeholder="Priority From"  [ngModelOptions]="{standalone: true}">
     </div>
-     <label for="parentTask" class="col-sm-1 col-form-label">Priority To:</label>
-    <div class="col-sm-2">
-      <input type="text" class="form-control" formControlName="priorityTo"  id="priorityTo" placeholder="Priority To">
+     <label for="parentTask" class="col-sm-2 col-form-label">Priority To:</label>
+    <div class="col-sm-4">
+      <input [(ngModel)]="priorityTo" class="form-control"   id="priorityTo" placeholder="Priority To"  [ngModelOptions]="{standalone: true}">
     </div>
-     <label for="Task" class="col-sm-1 col-form-label">Start Date:</label>
-    <div class="col-sm-2">
-      <input type="text" class="form-control"  formControlName="startDate" id="priorityFrom" placeholder="Start Date">
+   </div>
+   <div class="form-group row">
+     <label for="Task" class="col-sm-2 col-form-label">Start Date:</label>
+    <div class="col-sm-3">
+      <input [(ngModel)]="startDate" bsDatepicker class="form-control"   id="startDate" placeholder="Start Date"  [ngModelOptions]="{standalone: true}">
     </div>
-     <label for="parentTask" class="col-sm-1 col-form-label">End Date</label>
-    <div class="col-sm-2">
-      <input type="text" class="form-control" formControlName="endDate"  id="endDate" placeholder="End Date">
+     <label for="parentTask" class="col-sm-2 col-form-label">End Date</label>
+    <div class="col-sm-4">
+      <input [(ngModel)]="endDate" bsDatepicker class="form-control"   id="endDate" placeholder="End Date"  [ngModelOptions]="{standalone: true}">
     </div>
   </div>
   <div class="form-row align-items-center">
       <div class="col-sm-10">
-        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="reset" (click)="onSubmit()" class="btn btn-primary">Search</button>
       </div>
     </div>
-  </form>
+    </form>
+
 </div>
-  <app-tasklist *ngFor="let task of filteredTaskList"
+  <app-tasklist *ngFor="let task of filteredTaskList | tasksearch:taskName :parentTask :priorityFrom : priorityTo :startDate :endDate"
   [task]="task"   >
   </app-tasklist>
   

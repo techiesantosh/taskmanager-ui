@@ -1,3 +1,5 @@
+import { TaskRequest } from './../taskRequest';
+import { AuthService } from './../../login/service/auth.service';
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -10,6 +12,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { JsonResponse } from './JsonResponse';
 import { TaskResponse } from 'src/app/managetask/taskResponse';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +21,21 @@ export class TaskService {
 
 
   private createTaskRestEndpoint = 'http://localhost:8080/taskmanager/createtask';
-  private getTaskRestEndpoint = 'http://localhost:8080/taskmanager/gettasks';
-  constructor(private http: HttpClient) { }
+  private getTaskRestEndpoint = 'http://localhost:8080/taskmanager/gettasks/';
+  private updateTaskEndpoint = 'http://localhost:8080/taskmanager/updatetask/';
+  constructor(private http: HttpClient, private authService: AuthService,private datePipe:DatePipe) { }
 
   createTask(taskForm: TaskForm): Observable<HttpResponse<JsonResponse>> {
-
-
+    let taskRequest = new TaskRequest();
+    taskRequest.taskName = taskForm.taskName;
+    taskRequest.parentTaskId = taskForm.parentTaskId;
+    taskRequest.endDate = this.datePipe.transform( taskForm.endDate, 'yyyy-MM-dd');
+    taskRequest.startDate = this.datePipe.transform( taskForm.startDate, 'yyyy-MM-dd');
+    taskRequest.priority = taskForm.priority;
+    taskRequest.username = this.authService.currentUserValue;
 
     return this.http
-      .post<JsonResponse>(this.createTaskRestEndpoint, taskForm, {
+      .post<JsonResponse>(this.createTaskRestEndpoint, taskRequest, {
 
         observe: 'response'
       })
@@ -35,14 +44,31 @@ export class TaskService {
   }
 
   getTasks(): Observable<HttpResponse<JsonResponse>> {
+    const endpoint = this.getTaskRestEndpoint + this.authService.currentUserValue;
 
     return this.http
-      .get<JsonResponse>(this.getTaskRestEndpoint, {
+      .get<JsonResponse>(endpoint, {
 
         observe: 'response'
       })
       .pipe(catchError(this.handleErrorObservable));
 
+  }
+
+  updateTask (taskForm: TaskForm,taskId:number):Observable<HttpResponse<JsonResponse>> {
+
+    let taskRequest = new TaskRequest();
+    taskRequest.taskName = taskForm.taskName;
+    taskRequest.parentTaskId = taskForm.parentTaskId;
+    taskRequest.endDate = this.datePipe.transform( taskForm.endDate, 'yyyy-MM-dd');
+    taskRequest.startDate = this.datePipe.transform( taskForm.startDate, 'yyyy-MM-dd');
+    taskRequest.priority = taskForm.priority;
+    taskRequest.username = this.authService.currentUserValue;
+    return this.http.put<JsonResponse>(this.updateTaskEndpoint+taskId, taskRequest, {
+
+      observe: 'response'
+    })
+    .pipe(catchError(this.handleErrorObservable));
   }
 
 

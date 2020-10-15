@@ -1,6 +1,8 @@
-export class Alert{
+export class Alert {
 
-    type:string;
+    type: string;
     msg: string;
     timeout: number;
+    dismissible:boolean;
+
 }

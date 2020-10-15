@@ -20,14 +20,15 @@ export class TaskComponent implements OnInit {
   jsonResponse: JsonResponse;
   minStartDate: Date;
   maxStartDate: Date;
-  minEndDate:Date;
-  maxEndDate:Date;
+  minEndDate: Date;
+  maxEndDate: Date;
   selectedParentOption: TaskResponse;
   taskList: TaskResponse[] = [];
   rangeValue = '0';
   submitted = false;
   success = false;
   error = false;
+  clicked = false;
 
   alerts: Alert[] = [];
   constructor(private taskService: TaskService, private formBuilder: FormBuilder) {
@@ -53,7 +54,7 @@ export class TaskComponent implements OnInit {
         endDate: ['', [Validators.required, Validators.minLength(10)]]
       }, {
         validator: DateComparator('startDate', 'endDate')
-    });
+      });
 
 
     this.taskService.getTasks().subscribe(resp => {
@@ -73,7 +74,7 @@ export class TaskComponent implements OnInit {
   }
 
   onEndDateValueChange(value: Date): void {
-    this.maxStartDate=value;
+    this.maxStartDate = value;
   }
 
   get f() { return this.taskForm.controls; }
@@ -83,6 +84,8 @@ export class TaskComponent implements OnInit {
     this.taskForm.reset();
     this.taskForm.controls['priority'].patchValue(0);
     this.rangeValue = '0';
+    this.alerts = [];
+    this.ngOnInit();
   }
 
   onRangeChange(value: string) {
@@ -102,39 +105,51 @@ export class TaskComponent implements OnInit {
     // if (this.taskForm.valid) {
     // tslint:disable-next-line:comment-format
     //this.taskForm.reset({ parentTaskId: { value: this.selectedParentOption.taskId } });
-
+    console.log('onSubmit called');
     this.submitted = true;
     if (this.taskForm.invalid) {
       return;
     }
-    console.log('onSubmit called');
+
     // tslint:disable-next-line:no-unused-expression
     let task1 = new TaskForm();
     task1 = this.taskForm.value;
     if (this.selectedParentOption !== undefined) {
       task1.parentTaskId = this.selectedParentOption.taskId;
     }
+    this.clicked = true;
+    this.alerts = [];
+    this.alerts.push({
+      type: 'info',
+      msg: `Task Creation is in Progress`,
+      timeout: 2000,
+      dismissible: false
+
+    });
     this.taskService.createTask(task1).subscribe(resp => {
 
       this.jsonResponse = resp.body;
-      this.alerts.pop();
+      this.alerts = [];
       this.alerts.push({
-        type: 'info',
+        type: 'success',
         msg: `Task created successfully`,
-        timeout: 2000
+        timeout: 2000,
+        dismissible: true
       });
 
-
+      this.clicked = false;
 
     }, err => {
       // this.showError = true;
-      this.alerts.pop();
+      this.alerts = [];
       this.alerts.push({
         type: 'danger',
         msg: `Task creation Failed`,
-        timeout: 1000
-      });
+        timeout: 1000,
+        dismissible: true
 
+      });
+      this.clicked = false;
       console.log('onSubmit' + err + this.error + this.success);
     });
 
